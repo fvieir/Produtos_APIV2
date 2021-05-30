@@ -92,6 +92,22 @@ class Product
         $this->price       = $row['price'];
         
     }
+
+    public function delete()
+    {
+        $query = "DELETE FROM " .$this->table_name. " WHERE id = ? ";
+        $stmt = $this->conn->prepare($query);
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+
+        if($stmt->rowCount() >=1 )
+        {
+            return true;
+        }
+      
+        return false;
+    }
 }
 
 

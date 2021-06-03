@@ -108,6 +108,55 @@ class Product
       
         return false;
     }
+
+    public function update()
+    {
+        $stmt = $this->conn->prepare("SELECT id FROM " .$this->table_name. " WHERE id = :id");
+        $stmt->bindParam(':id',$this->id);
+        $stmt->execute();
+
+        if ($stmt->rowCount() == 1) 
+        {
+            $query = "UPDATE
+                " . $this->table_name . "
+                SET
+                    name = :name,
+                    price = :price,
+                    description = :description,
+                    category_id = :category_id,
+                    modified = :modified
+                WHERE
+                 id = :id";
+     
+            $stmt = $this->conn->prepare($query);
+
+            // Sanitize
+            $this->name         = htmlspecialchars(strip_tags($this->name));
+            $this->price        = htmlspecialchars(strip_tags($this->price));
+            $this->description  = htmlspecialchars(strip_tags($this->description));
+            $this->category_id  = htmlspecialchars(strip_tags($this->category_id));
+            $this->id           = htmlspecialchars(strip_tags($this->id));
+
+            // BindParmam
+            $stmt->bindParam(':id',$this->id);
+            $stmt->bindParam(':name',$this->name);
+            $stmt->bindParam(':price',$this->price);
+            $stmt->bindParam(':description', $this->description);
+            $stmt->bindParam(':category_id',$this->category_id);
+            $stmt->bindParam(':modified',$this->modified);
+
+            $stmt->execute();
+
+            if ($stmt->rowCount() == 1) 
+            {
+                return true;
+            }else{
+                throw new Exception("Por favor atualize os dados");
+            }    
+        }else{
+            throw new Exception("Registo não esta cadastrado no banco de dados");
+        }    
+    }
 }
 
 

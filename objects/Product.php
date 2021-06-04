@@ -157,6 +157,26 @@ class Product
             throw new Exception("Registo não esta cadastrado no banco de dados");
         }    
     }
+
+    public function search($keyworks)
+    {
+        $sql = "SELECT * 
+                    FROM " .$this->table_name."
+                    WHERE name like ? 
+                    or description like ?";
+        
+        //Sanitize
+        $keyworks = htmlspecialchars(strip_tags($keyworks));
+        $keyworks = "%{$keyworks}%";
+
+        //Executar query
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1,$keyworks);
+        $stmt->bindParam(2,$keyworks);
+        $stmt->execute();
+
+        return $stmt;       
+    }
 }
 
 

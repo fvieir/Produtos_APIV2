@@ -15,8 +15,10 @@ $db = $database->getConnection();
 
 $product = new Product($db);
 
-$stmt = $product->read_page(1,10);
+$stmt = $product->read_page($from_record_num,$record_per_page);
 $num = $stmt->rowCount();
+
+//var_dump($from_record_num,$record_per_page);
 
 if ($num > 0)
 {
@@ -38,10 +40,23 @@ if ($num > 0)
        );
 
        array_push($product_arr['records'],$product_item);
+
     }
 
     $total_rows = $product->count();
+    $page_url = "{$home_url}/product/read.paging.php";
+    $paging = $utilities->getPaging($page, $total_rows, $record_per_page,$page_url);
 
+    $product_arr['paging'] = $paging;
+
+    http_response_code(200);
+
+    echo json_encode($product_arr);
+}else{
+
+    http_response_code(404);
+
+    echo json_encode(array('mensagem' => 'Página não encontrada'));
 }
 
 ?>

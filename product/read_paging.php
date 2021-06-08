@@ -18,8 +18,6 @@ $product = new Product($db);
 $stmt = $product->read_page($from_record_num,$record_per_page);
 $num = $stmt->rowCount();
 
-//var_dump($from_record_num,$record_per_page);
-
 if ($num > 0)
 {
     $product_arr = array();

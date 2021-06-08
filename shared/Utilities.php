@@ -6,7 +6,7 @@ class Utilities
     {
         $paging_arr = array();
         $paging_arr['first'] = array();
-        $paging_arr['first'] = $page>1 ? "{$page_url}$page=1" : "";
+        $paging_arr['first'] = $page>1 ? "{$page_url}?page=1" : "";
 
         $total_pages = ceil(($total_rows / $record_per_page));
 

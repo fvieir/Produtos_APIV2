@@ -1,7 +1,6 @@
 <?php
-
-header("Access-Control-Allow-Origin");
-header("Content-Type: application/json; chasert=UTF-8");
+header('Access-Control-Allow_Origin: *');
+header('Content-Type: application/json, charset=UTF-8');
 
 include_once '../config/Database.php';
 include_once '../objects/Product.php';
@@ -37,13 +36,11 @@ if($num > 0)
 
     http_response_code(200);
 
-    var_dump($products_arr);
-
-    return json_encode($products_arr);   
+    echo json_encode($products_arr);   
 }else{
     http_response_code(404);
 
-    return json_encode(array('message' => 'Produtos não encontrados'));
+    echo json_encode(array('message' => 'Produtos não encontrados'));
 }
 
 ?>
